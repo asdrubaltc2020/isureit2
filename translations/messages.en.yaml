@@ -1,0 +1,31 @@
+
+global:
+  user: User
+  users: Users
+  home: Home
+  dashboard: Dashboard
+
+menu:
+  english: English
+  spanish: Spanish
+  dashboard: Dashboard
+  carrier: Carrier
+  new_carrier: New Carrier
+  list_carriers: List Carriers
+  agents: Agents
+  new_agent: New Agent
+  list_agents: List Agents
+  customers: Customers
+  new_customer: New Customer
+  list_customers: List Customers
+  tools: Tools
+  carrier_balance: Carrier Balance
+  merge_customers: Merge Customers
+  sale_history: Sale History
+  report_builder: Report Builder
+  impersonator: Impersonator
+  security: Security
+  users: Users
+  roles: Roles
+  logs: Logs
+  language: Language

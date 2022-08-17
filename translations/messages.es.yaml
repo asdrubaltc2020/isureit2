@@ -1,0 +1,29 @@
+
+global:
+    user: Usuario
+    users: Usuarios
+    home: Inicio
+
+menu:
+    english: Ingles
+    spanish: Español
+    dashboard: Dashboard
+    carrier: Pagador
+    new_carrier: Nuevo Pagador
+    list_carriers: Lista de Pagadores
+    agents: Agentes
+    new_agent: Nuevo Agente
+    list_agents: Lista de Agentes
+    customers: Consumidores
+    new_customer: Nuevo Consumidor
+    list_customers: Lista de Consumidores
+    tools: Herramientas
+    carrier_balance: Estado de pagadores
+    merge_customers: Mesclar Consumidores
+    sale_history: Historial de Ventas
+    report_builder: Construir Reporte
+    impersonator: Imitar usuario
+    security: Seguridad
+    users: Usuarios
+    roles: Roles
+    logs: Registros
