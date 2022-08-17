@@ -1,0 +1,65 @@
+.required:after{
+    display: none!important;
+}
+
+.btn-actions i{
+    color:#fff;
+    font-size: 13px!important;
+}
+
+.btn-actions{
+    padding: 1px 4px!important;
+    margin-left: 3px!important;
+}
+
+.col-Actions{
+    text-align: right!important;
+}
+
+
+div.ag-theme-balham div.ag-row {
+    font-size: 15px !important;
+    vertical-align: middle!important;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+}
+
+.ag-row .ag-cell {
+    display: flex;
+    justify-content: left; /* align horizontal */
+    align-items: center;
+}
+
+.ag-header-row{
+    background: #009EF7;
+    color:#fff;
+}
+
+.ag-theme-balham .ag-icon{
+    color:#fff!important;
+}
+
+.flash_message_position{
+    position: absolute!important;
+    z-index: 10000;
+    right: 0;
+    top:100px;
+}
+
+.pagination {
+    justify-content: right;
+}
+
+.table.gy-4 td, .table.gy-4 th{
+    padding-top:5px;
+    padding-bottom: 5px;
+}
+
+@media (min-width: 1400px){
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+        max-width: 1800px!important;
+    }
+}
+
+
