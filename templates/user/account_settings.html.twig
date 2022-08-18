@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="mb-3">
+        <div class="page-header page-header-dark has-cover" style="border: 1px solid #ddd; border-bottom: 0;">
+            <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+                <div class="d-flex">
+                    <div class="breadcrumb">
+                        <a href="#" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                        <span class="breadcrumb-item active">Account Settings</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-page">
+        <div class="card">
+            <div class="card-header header-elements-inline">
+                <h5 class="card-title"><span class="badge badge-light badge-striped badge-striped-left border-left-primary badge-title">Account Settings</span></h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="nav nav-tabs nav-tabs-highlight">
+                            <li class="nav-item"><a href="#tab1" class="nav-link active" data-toggle="tab">Agent Information</a></li>
+                            <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab">Account Information</a></li>
+                            <li class="nav-item"><a href="#tab3" class="nav-link" data-toggle="tab">Settings</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="tab1">
+                                <div class="row">
+                                    <div class="col-9">
+                                        {{ form_start(form_agent, {'attr': {'id':'form_agent'}}) }}
+                                        {{ form_widget(form_agent) }}
+                                        <div class="form-group row">
+                                            <div class="col-12">
+                                                <p class="text-warning-800 ">(*) Fields required</p>
+                                                <a href="#" class="btn btn-success btn-lg btn-all-width">Save</a>
+                                            </div>
+                                        </div>
+                                        {{ form_end(form_agent) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab2">
+                                <div class="row">
+                                    <div class="col-9">
+                                        {{ form_start(form_user, {'attr': {'id':'form_user'}}) }}
+                                        {{ form_widget(form_user) }}
+                                        <div class="form-group row">
+                                            <div class="col-12">
+                                                <p>(*) Fields required</p>
+                                                <input type="submit" value="Save" class="btn btn-info bnt-send">
+                                                <a href="{{ path('agency') }}" class="btn btn-danger">Cancel</a>
+                                            </div>
+                                        </div>
+                                        {{ form_end(form_user) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab2">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+ {% block javascripts %}
+     {{ parent()}}
+     <script type="text/javascript">
+         $(document).ready(function(e){
+
+             $('.select').select2({
+                 minimumResultsForSearch: Infinity
+             })
+
+             $('.bnt-save-agent').click(function(e){
+
+                 e.preventDefault();
+                 $('#form_agent').submit();
+             })
+         })
+     </script>
+ {% endblock %}

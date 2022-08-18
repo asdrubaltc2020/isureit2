@@ -1,20 +1,148 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello UserController!{% endblock %}
-
+{% block title %} Isureit - Users!{% endblock %}
+{% block breadcrumb %}
+    {{ include('components/breadcrumb.html.twig',
+        {
+            item_level:1,
+            main_section_title: "User",
+            parent_page_title: "Users" ,
+            link_path: '',
+            page_title: "User List",
+            action: ''
+        })
+    }}
+{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="content-page">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        {{ include('components/search_bar.html.twig',{ action_path: path('user'),  link_path: path('add_user'), add_btn_label: 'Add User' }) }}
+                        {{ include('components/multiple_actions.html.twig',{ actions: actions }) }}
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="table-responsive" id="cont-table">
+                                    <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                                        <thead>
+                                        <tr class="fw-bolder text-muted">
+                                            <th class="w-10%">
+                                                <input class="form-check-input" type="checkbox" value="1" data-kt-check="true" data-kt-check-target=".widget-9-check" /> ID
+                                            </th>
+                                            <th class="{% if pagination.isSorted('u.first_name') %} class='sorted'{% endif %}" >{{ knp_pagination_sortable(pagination, 'First Name', 'u.first_name') }}</th>
+                                            <th class="{% if pagination.isSorted('u.last_name') %} class='sorted'{% endif %}" >{{ knp_pagination_sortable(pagination, 'Last Name', 'u.last_name') }}</th>
+                                            <th class="{% if pagination.isSorted('u.email') %} class='sorted'{% endif %}" >{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+                                            <th style="text-align: right">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for user in pagination %}
+                                            <tr id="row_{{ user.id }}">
+                                                <td>
+                                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                        <input class="form-check-input widget-9-check" type="checkbox" value="1" /> <span style="margin-left: 6px;">{{ user.id }}</span>
+                                                    </div>
+                                                </td>
+                                                <td>{{ user.first_name }}</td>
+                                                <td>{{ user.last_name }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end flex-shrink-0">
+                                                        {{ include('components/btn_view.html.twig', { path: path('view_user',{'id':user.id})  }) }}
+                                                        {{ include('components/btn_edit.html.twig', { path: path('edit_user',{'id':user.id})  }) }}
+                                                        {{ include('components/btn_delete.html.twig', { path: path('delete_user',{id:user.id}), id: user.id}) }}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="navigation">
+                                        {{ knp_pagination_render(pagination) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="{{ path('delete_user') }}" method="post" id="delete_form">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <input type="hidden" id="user" name="user" value="">
+    </form>
+    {{ include('user/form.html.twig',{form:delete_form_ajax}) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            $('#btn-search').click(function(e){
+                e.preventDefault()
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/isureit2/src/Controller/UserController.php'|file_link(0) }}">src/Controller/UserController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/isureit2/templates/user/index.html.twig'|file_link(0) }}">templates/user/index.html.twig</a></code></li>
-    </ul>
-</div>
+                let searcrh_text=$('#filter-text-box').val()
+
+                $('#form-search').submit()
+            })
+
+            $('.btn-delete').click(function(e){
+                e.preventDefault()
+
+                var id=$(this).data('id')
+                $('#user').val(id)
+            })
+
+            $('#cont-table').on('click','.btn-delete',function(e){
+
+
+                Swal.fire({
+                    html: 'Do you want to delete this user?',
+                    icon: "warning",
+                    buttonsStyling: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: 'No, cancel',
+                    customClass: {
+                        confirmButton: "btn btn-success btn-confirm-delete",
+                        cancelButton: 'btn btn-danger'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        var user_id=$('#user').val()
+                        var tr=$('#row_'+user_id);
+                        var url=$('#delete_form').attr('action')
+
+                        var data={
+                            id:user_id
+                        }
+
+                        $.post(url, data, function (result) {
+
+                            tr.fadeOut(500)
+
+                            Swal.fire(
+                                'Deleted!',
+                                'The user has been deleted.',
+                                'success'
+                            )
+                        })
+                    }
+                })
+            })
+
+
+            $('.btn-execute').click(function(e){
+                e.preventDefault()
+
+                let action= $('#multiple_actions').val();
+
+                console.log(action)
+            })
+
+        })
+    </script>
 {% endblock %}

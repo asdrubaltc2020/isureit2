@@ -1,0 +1,5 @@
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success mb-0 flash-notification" role="alert">
+        <strong>{{ message }}</strong>
+    </div>
+{% endfor %}

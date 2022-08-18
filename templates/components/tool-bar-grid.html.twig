@@ -1,0 +1,48 @@
+<div class="row mb-2">
+    {% if multiple_action %}
+    <div class="col-6 col-xs-12">
+        <div class="form-group form-group-feedback form-group-feedback-left">
+            <input type="text" class="form-control form-control-sm" id="filter-text-box" placeholder="Type to Filter..." oninput="onFilterTextBoxChanged()">
+        </div>
+    </div>
+    {% endif %}
+    <div {% if multiple_action %}  class="col-6 col-xs-12" {% else%} class="col-12"  {% endif %}style="text-align: right;">
+        <a href="{{ add_path }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> New {{ entity_name }}</a>
+    </div>
+</div>
+<div class="row mb-2">
+    {% if multiple_action %}
+    <div class="col-2">
+        <select class="form-control form-control-sm select option_batch select" data-fouc>
+            {% set c=0 %}
+            {% for action in actions %}
+                <option value="{{ c }}">Delete Selected</option>
+                {% set c=c+1 %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-2">
+        <a href="#" class="btn btn-primary btn-sm" id="action_multiple"><i class="fas fa-cog"></i> Execute</a>
+    </div>
+    {% endif %}
+    {% if multiple_action==false %}
+        <div class="col-6 col-xs-12">
+            <div class="form-group form-group-feedback form-group-feedback-left">
+                <input type="text" class="form-control form-control-sm" id="filter-text-box" placeholder="Type to Filter..." oninput="onFilterTextBoxChanged()">
+            </div>
+        </div>
+    {% endif %}
+    <div {% if multiple_action %} class="col-8" {% else %} class="col-6" {% endif%} style="text-align: right;">
+        <div class="row">
+            <div class="col-lg-12 text-right">
+                <label class="col-form-label mr-1">Page size:</label>
+                <select class="form-control form-control-sm"  style="max-width: 75px!important;display: inline-block;" onchange="onPageSizeChanged()" id="page-size">
+                    <option value="25" selected>25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<form action="{{ action_path }}" method="POST" id="form-search">
+<div class="row mb-3">
+    <div class="col-6">
+        <div class="d-flex">
+            <input id="filter-text-box" type="text" class="form-control form-control-sm form-control-solid me-3 flex-grow-1" name="search" placeholder="Search" autofocus value="{{ searh }}">
+            <button id="btn-search" class="btn btn-sm btn-secondary fw-bolder flex-shrink-0" data-clipboard-target="#kt_share_earn_link_input">Search</button>
+        </div>
+    </div>
+    <div class="col-6" style="text-align: right">
+        <a href="{{ link_path }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> {{ add_btn_label }}</a>
+    </div>
+</div>
+</form>

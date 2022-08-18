@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block title %}Isureit - {{ action}} User!{% endblock %}
+{% block breadcrumb %}
+    {{ include('components/breadcrumb.html.twig',
+        {
+            item_level:2,
+            main_section_title: "User",
+            parent_page_title: "Users" ,
+            link_path: path('user'),
+            page_title: "User",
+            action: action
+        })
+    }}
+{% endblock %}
+{% block body %}
+    <div class="content-page">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-9">
+                                {{ form_start(form, {'attr': {'id':'form'}}) }}
+                                {{ form_widget(form) }}
+                                {{ include('components/form-buttons.html.twig',
+                                    {
+                                        cancel_path: path('user'),
+                                    })
+                                }}
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+ {% block javascripts %}
+     {{ parent()}}
+     <script type="text/javascript">
+         $(document).ready(function(e){
+             $('.bnt-send').click(function(e){
+
+                 e.preventDefault();
+                 $('#form').submit();
+             })
+         })
+     </script>
+ {% endblock %}

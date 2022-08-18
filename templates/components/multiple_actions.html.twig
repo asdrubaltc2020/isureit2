@@ -1,0 +1,13 @@
+<div class="row mb-5">
+    <div class="col-3">
+        <select class="form-select form-select-sm form-select-solid" id="multiple_actions" data-control="select2" data-placeholder="Select an option" data-hide-search="true">
+            <option></option>
+            {% for action in actions %}
+                <option value="{{ action.id }}">{{ action.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-3">
+        <a href="#" class="btn btn-sm btn-primary btn-execute"><i class="fas fa-cog fs-4 me-2"></i> Execute</a>
+    </div>
+</div>
