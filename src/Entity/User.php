@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -20,6 +21,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column()]
     private ?int $id = null;
 
+    /**
+     * @Assert\NotBlank
+     */
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -32,9 +36,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * @Assert\NotBlank
+     */
     #[ORM\Column(length: 255)]
     private ?string $first_name = null;
 
+    /**
+     * @Assert\NotBlank
+     */
     #[ORM\Column(length: 255)]
     private ?string $last_name = null;
 
