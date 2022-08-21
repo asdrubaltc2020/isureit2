@@ -6,7 +6,7 @@
             item_level:2,
             main_section_title: "User",
             parent_page_title: "Users" ,
-            link_path: path('user'),
+            link_path: path('list_user'),
             page_title: "User",
             action: action
         })
@@ -24,7 +24,7 @@
                                 {{ form_widget(form) }}
                                 {{ include('components/form-buttons.html.twig',
                                     {
-                                        cancel_path: path('user'),
+                                        cancel_path: path('list_user'),
                                     })
                                 }}
                                 {{ form_end(form) }}

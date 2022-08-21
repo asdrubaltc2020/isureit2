@@ -30,7 +30,7 @@ class UserController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/list', name: 'user', methods: ["GET","POST"])]
+    #[Route('/list', name: 'list_user', methods: ["GET","POST"])]
     public function index(UserRepository $repository, TranslatorInterface $translator, PaginatorInterface $paginator, Request $request): Response
     {
         $searh="";
@@ -85,7 +85,7 @@ class UserController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->redirectToRoute('user');
+            return $this->redirectToRoute('list_user');
         }
 
         return $this->render('user/add.html.twig', [
@@ -118,14 +118,14 @@ class UserController extends AbstractController
 
         $user=$this->em->getRepository(User::class)->find($id);
 
-        $agent=$this->em->getRepository('App:Agent')->findOneBy(['user'=>$user->getId()]);
+/*        $agent=$this->em->getRepository('App:Agent')->findOneBy(['user'=>$user->getId()]);*/
 
         $role=null;
         if($user->hasRole('ROLE_AGENT')){
             $role='Agent';
         }
 
-        return $this->render('user/view.html.twig',['user'=>$user,'action'=>'View','agent'=>$agent,'role'=>$role]);
+        return $this->render('user/view.html.twig',['user'=>$user,'action'=>'View'/*,'agent'=>$agent*/,'role'=>$role]);
     }
 
     #[Route('/delete', name: 'delete_user', methods: ["POST","DELETE"])]

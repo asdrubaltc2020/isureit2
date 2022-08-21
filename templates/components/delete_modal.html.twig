@@ -1,0 +1,24 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-sm btn-danger btn-icon btn-actions" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ role.id }}">
+    <i class="fas fa-trash-alt fs-4"></i>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="delete-modal-{{ role.id }}" tabindex="-1" aria-labelledby="delete-modal-Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">{% trans %}modal.delete{% endtrans %} {{ type }}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>{% trans %}modal.shure{% endtrans %} {{ type|lower }}?</h5>
+                <h5>{{ role.name }}</h5>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ path( route , {'id':role.id}) }}" class="btn btn-danger">Delete</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

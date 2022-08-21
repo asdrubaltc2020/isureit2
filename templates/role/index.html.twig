@@ -4,15 +4,15 @@
     <div class="toolbar py-5" id="kt_toolbar">
         <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
             <div class="page-title d-flex flex-column me-3">
-                <h1 class="d-flex text-white fw-bolder my-1 fs-3"> Roles</h1>
+                <h1 class="d-flex text-white fw-bolder my-1 fs-3"> {% trans %}role.roles{% endtrans %}</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <li class="breadcrumb-item text-white opacity-75">
-                        <a href="#" class="text-white text-hover-primary">Home</a>
+                        <a href="#" class="text-white text-hover-primary">{% trans %}global.home{% endtrans %} </a>
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-white opacity-75 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-white opacity-75"> Roles List</li>
+                    <li class="breadcrumb-item text-white opacity-75"> {% trans %}role.role_list{% endtrans %}</li>
                 </ul>
             </div>
         </div>
@@ -43,13 +43,13 @@
                     </div>
                     <div class="card-toolbar">
                         <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                            <a href="{{ path('add_role') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Role</a>
+                            <a href="{{ path('add_role') }}" class="btn btn-primary"><i class="fas fa-plus"></i> {% trans %}role.add{% endtrans %}</a>
                         </div>
                     </div>
                     <!--end::Card toolbar-->
                 </div>
                 <div class="card-body pt-4">
-                    <table class="table table-hover table-rounded table-striped border gy-3 gs-3">
+                    <table id="roles_paginator" class="table table-hover table-rounded table-striped border gy-3 gs-3">
                         <thead>
                         <tr>
                             <th width="10%">{{ knp_pagination_sortable(pagination, 'Id', 'u.id') }}</th>
@@ -66,7 +66,9 @@
                                 <td>{{ role.description }}</td>
                                 <td style="text-align: right;">
                                     <a href="{{ path('edit_role',{'id':role.id}) }}" class="btn btn-sm btn-primary btn-icon btn-actions"><i class="fas fa-edit fs-4"></i></a>
-                                    <a href="#" class="btn btn-sm btn-danger btn-icon btn-actions"><i class="fas fa-trash-alt fs-4"></i></a>
+                                    {#<a href="{{ path('delete_role',{'id':role.id}) }}" class="btn btn-sm btn-danger btn-icon btn-actions"><i class="fas fa-trash-alt fs-4"></i></a>#}
+                                    {{ include('components/delete_modal.html.twig',{id:role , route:'delete_role', type:'Role'}) }}
+
                                 </td>
                             </tr>
                         {% endfor %}
@@ -81,14 +83,18 @@
         </div>
     </div>
 </div>
-    {{ include('role/form.html.twig',{form:delete_form_ajax}) }}
+
 {% endblock %}
 {% block javascripts %}
     {{ parent()}}
     <script src="{{ asset('js/role/delete.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function(e){
-
+            $('#roles_paginator').DataTable({
+                "searching": false,
+                "sort": false,
+                "paging": false
+            });
         });
     </script>
 {% endblock %}
