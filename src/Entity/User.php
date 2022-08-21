@@ -69,6 +69,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Count(min: 1,minMessage: 'You have to select at least one Role')]
     private Collection $user_roles;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Agent::class)]
+    private Collection $agents;
+
     /**
      * User constructor.
      * @param int|null $id
@@ -84,6 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
         $this->password = $password;
         $this->user_roles = new ArrayCollection();
+        $this->agents = new ArrayCollection();
     }
 
 
@@ -275,6 +279,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getDisplayName() {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    /**
+     * @return Collection<int, Agent>
+     */
+    public function getAgents(): Collection
+    {
+        return $this->agents;
+    }
+
+    public function addAgent(Agent $agent): self
+    {
+        if (!$this->agents->contains($agent)) {
+            $this->agents->add($agent);
+            $agent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgent(Agent $agent): self
+    {
+        if ($this->agents->removeElement($agent)) {
+            // set the owning side to null (unless already changed)
+            if ($agent->getUser() === $this) {
+                $agent->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AgencyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,6 +30,14 @@ class Agency
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Agent::class)]
+    private Collection $agents;
+
+    public function __construct()
+    {
+        $this->agents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,5 +99,35 @@ class Agency
 
     public function getDisplayName() {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Agent>
+     */
+    public function getAgents(): Collection
+    {
+        return $this->agents;
+    }
+
+    public function addAgent(Agent $agent): self
+    {
+        if (!$this->agents->contains($agent)) {
+            $this->agents->add($agent);
+            $agent->setAgency($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgent(Agent $agent): self
+    {
+        if ($this->agents->removeElement($agent)) {
+            // set the owning side to null (unless already changed)
+            if ($agent->getAgency() === $this) {
+                $agent->setAgency(null);
+            }
+        }
+
+        return $this;
     }
 }

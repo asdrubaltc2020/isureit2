@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AncillaryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,6 +31,14 @@ class Ancillary
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\ManyToMany(targetEntity: Agent::class, mappedBy: 'agent_ancilliaries')]
+    private Collection $agents;
+
+    public function __construct()
+    {
+        $this->agents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,5 +100,32 @@ class Ancillary
 
     public function getDisplayName() {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Agent>
+     */
+    public function getAgents(): Collection
+    {
+        return $this->agents;
+    }
+
+    public function addAgent(Agent $agent): self
+    {
+        if (!$this->agents->contains($agent)) {
+            $this->agents->add($agent);
+            $agent->addAgentAncilliary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgent(Agent $agent): self
+    {
+        if ($this->agents->removeElement($agent)) {
+            $agent->removeAgentAncilliary($this);
+        }
+
+        return $this;
     }
 }
