@@ -52,7 +52,7 @@ class UserController extends AbstractController
 
         $actions=[
             [
-                "id"=>1,
+                "id"=>0,
                 "name"=>"delete"
             ]
         ];
@@ -130,22 +130,51 @@ class UserController extends AbstractController
 
     #[Route('/delete', name: 'delete_user', methods: ["POST","DELETE"])]
     public function deleteAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
 
-        $user = $em->getRepository('App:User')->find($id);
+        $user = $this->em->getRepository('App\Entity\User')->find($id);
         $removed = 0;
         $message = "";
 
         if ($user) {
             try {
-                $em->remove($user);
-                $em->flush();
+                $this->em->remove($user);
+                $this->em->flush();
                 $removed = 1;
                 $message = "The User has been Successfully removed";
             } catch (Exception $ex) {
                 $removed = 0;
                 $message = "The User can't be removed";
+            }
+        }
+
+        return new Response(
+            json_encode(array('removed' => $removed, 'message' => $message)), 200, array('Content-Type' => 'application/json')
+        );
+    }
+
+    /**
+     * @Route("/delete_multiple", name="delete_multiple_user",methods={"POST","DELETE"})
+     */
+    public function deleteMultipleAction(Request $request) {
+
+        $ids = $request->get('ids');
+        $removed = 0;
+        $message = "";
+
+        foreach ($ids as $id) {
+            $user  = $this->em->getRepository('App\Entity\User')->find($id);
+
+            if ($user) {
+                try {
+                    $this->em->remove($user);
+                    $this->em->flush();
+                    $removed = 1;
+                    $message = "The Users has been removed Successfully";
+                } catch (Exception $ex) {
+                    $removed = 0;
+                    $message = "The Users can't be removed";
+                }
             }
         }
 

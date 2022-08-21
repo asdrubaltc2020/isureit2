@@ -39,6 +39,28 @@ class RoleRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAll(){
+
+        return $this->createQueryBuilder('u')
+            ->select('u.id','u.name','u.description')
+            ->getQuery()
+            ;
+    }
+
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.id','u.name','u.description')
+            ->where('u.id = :id')
+            ->orwhere('u.email LIKE :name')
+            ->orwhere('u.first_name LIKE :description')
+            ->setParameter('id', $value)
+            ->setParameter('name', '%'.$value.'%')
+            ->setParameter('description', '%'.$value.'%')
+            ->getQuery()
+            ;
+    }
+
 //    /**
 //     * @return Role[] Returns an array of Role objects
 //     */

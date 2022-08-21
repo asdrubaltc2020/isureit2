@@ -27,21 +27,36 @@ class RoleController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/list', name: 'list_role')]
+    #[Route('/list', name: 'list_role', methods: ["GET","POST"])]
     public function roleList(PaginatorInterface $paginator, Request $request, RoleRepository $repository): Response {
 
-        $roles_query=$repository->findAll();
-        $pagination = $paginator->paginate(
-            $roles_query,
-            $request->query->getInt('page', 1),
-            1
-        );
+        $searh = "";
+        $roles = $repository->getAll();
+        if($request->isMethod('POST')){
+            $searh=$request->get('search');
+            if($searh!=""){
+                $roles=$repository->findByExampleField($searh);
+            }
+        }
 
+        $actions=[
+            [
+                "id"=>0,
+                "name"=>"Delete",
+                "path"=>"delete_multiple_role"
+            ]
+        ];
+
+        $pagination = $paginator->paginate(
+            $roles,
+            $request->query->getInt('page', 1),
+            25
+        );
 
         $delete_form_ajax = $this->createCustomForm('ROLE_ID', 'DELETE', 'delete_role');
 
         return $this->render('role/index.html.twig', [
-            'pagination' => $pagination, 'delete_form_ajax' => $delete_form_ajax->createView()
+            'pagination' => $pagination, "actions"=>$actions, 'searh'=>$searh, 'delete_form_ajax' => $delete_form_ajax->createView()
         ]);
     }
 
@@ -87,7 +102,7 @@ class RoleController extends AbstractController
     }
 
 
-    #[Route('/delete/{id}', name: 'delete_role')]
+    /*#[Route('/delete/{id}', name: 'delete_role')]
     public function deleteAction($id) {
         $role = $this->em->getRepository('App\Entity\Role')->find($id);
 
@@ -106,6 +121,31 @@ class RoleController extends AbstractController
             }
         }
         return $this->redirectToRoute('list_role');
+    }*/
+
+    #[Route('/delete', name: 'delete_role', methods: ["POST","DELETE"])]
+    public function deleteAction(Request $request) {
+        $id = $request->get('id');
+
+        $user = $this->em->getRepository('App\Entity\Role')->find($id);
+        $removed = 0;
+        $message = "";
+
+        if ($user) {
+            try {
+                $this->em->remove($user);
+                $this->em->flush();
+                $removed = 1;
+                $message = "The User has been Successfully removed";
+            } catch (Exception $ex) {
+                $removed = 0;
+                $message = "The User can't be removed";
+            }
+        }
+
+        return new Response(
+            json_encode(array('removed' => $removed, 'message' => $message)), 200, array('Content-Type' => 'application/json')
+        );
     }
 
     /**
