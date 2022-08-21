@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -20,6 +22,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column()]
     private ?int $id = null;
 
+    /**
+     * @Assert\NotBlank
+     */
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -32,9 +37,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * @Assert\NotBlank
+     */
     #[ORM\Column(length: 255)]
     private ?string $first_name = null;
 
+    /**
+     * @Assert\NotBlank
+     */
     #[ORM\Column(length: 255)]
     private ?string $last_name = null;
 
@@ -112,6 +123,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function hasRole(String $role): bool
+    {
+        $rolesList=$this->getUserRoles();
+
+        if($rolesList!==null or $rolesList!==""){
+            foreach ($rolesList as $rol){
+                if($rol->getName() == $role){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -144,7 +173,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getFullName(){
-        return "";
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function getFirstName(): ?string
