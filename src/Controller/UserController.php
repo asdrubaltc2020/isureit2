@@ -70,6 +70,7 @@ class UserController extends AbstractController
         $form=$this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()){
 
             $user->setRoles(['ROLE_USER']);
@@ -84,7 +85,7 @@ class UserController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->redirectToRoute('userRegistration');
+            return $this->redirectToRoute('user');
         }
 
         return $this->render('user/add.html.twig', [
