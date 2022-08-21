@@ -2,45 +2,36 @@
 
 namespace App\Entity;
 
-use App\Repository\RoleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\CarrierRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: RoleRepository::class)]
+#[ORM\Entity(repositoryClass: CarrierRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Role
+class Carrier
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column()]
+    #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank
-     */
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo_url = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
-
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'user_roles')]
-    private Collection $users;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -71,6 +62,18 @@ class Role
         return $this;
     }
 
+    public function getLogoUrl(): ?string
+    {
+        return $this->logo_url;
+    }
+
+    public function setLogoUrl(?string $logo_url): self
+    {
+        $this->logo_url = $logo_url;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
@@ -94,40 +97,5 @@ class Role
         $this->updated_at = $updated_at;
 
         return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addUserRole($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            $user->removeUserRole($this);
-        }
-
-        return $this;
-    }
-
-    public function __toString() {
-        return $this->name;
-    }
-
-    public function getDisplayName() {
-        return $this->name;
     }
 }

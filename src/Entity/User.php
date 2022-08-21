@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -26,6 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotBlank
      */
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email(message: 'Email format not valid')]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -35,6 +39,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 6, max: 255)]
     private ?string $password = null;
 
     /**
@@ -59,6 +65,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $enabled = null;
 
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
+    #[Assert\NotBlank]
+    #[Assert\Count(min: 1,minMessage: 'You have to select at least one Role')]
     private Collection $user_roles;
 
     /**
@@ -205,9 +213,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
     {
-        $this->created_at = $created_at;
+        $this->created_at = new \DateTime();
 
         return $this;
     }
@@ -258,6 +267,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->user_roles->removeElement($userRole);
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->first_name.' '.$this->last_name;
+    }
+
+    public function getDisplayName() {
+        return $this->first_name.' '.$this->last_name;
     }
 
 }
