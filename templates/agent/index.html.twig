@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+{% block title %}Isureit - Agents{% endblock %}
+{% block breadcrumb %}
+    <div class="toolbar py-5" id="kt_toolbar">
+        <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+            <div class="page-title d-flex flex-column me-3">
+                <h1 class="d-flex text-white fw-bolder my-1 fs-3"> {% trans %}role.roles{% endtrans %}</h1>
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <li class="breadcrumb-item text-white opacity-75">
+                        <a href="#" class="text-white text-hover-primary">{% trans %}global.home{% endtrans %} </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-white opacity-75 w-5px h-2px"></span>
+                    </li>
+                    <li class="breadcrumb-item text-white opacity-75"> {% trans %}role.role_list{% endtrans %}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="content-page">
+        <div class="row">
+            <div class="col-12">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <div class="card-body ">
+                        {{ include('components/search_bar.html.twig',{ action_path: path('list_agent'),  link_path: path('add_agent'), add_btn_label: 'Add Agent' }) }}
+                        {{ include('components/multiple_actions.html.twig',{ actions: actions }) }}
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="table-responsive" id="cont-table">
+                                    <table id="table" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                                        <thead>
+                                        <tr>
+                                        <tr class="fw-bolder text-muted">
+                                            <th class="w-10%">
+                                                <input id="checkbox" class="form-check-input" type="checkbox" value="1" data-kt-check="true" data-kt-check-target=".widget-9-check" /> ID
+                                            </th>
+                                            <th {% if pagination.isSorted('u.first_name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Name', 'u.first_name') }}</th>
+                                            <th {% if pagination.isSorted('u.email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+                                            <th {% if pagination.isSorted('u.birth_date') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Birth Date', 'u.birth_date') }}</th>
+                                            <th {% if pagination.isSorted('u.phone') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Phone', 'u.phone') }}</th>
+                                            <th {% if pagination.isSorted('u.phone_ext') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Ext', 'u.phone_ext') }}</th>
+                                            <th {% if pagination.isSorted('u.mobil') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Mobil', 'u.mobil') }}</th>
+                                            <th {% if pagination.isSorted('u.social') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Social', 'u.social') }}</th>
+                                            <th {% if pagination.isSorted('u.street') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Street', 'u.street') }}</th>
+                                            <th {% if pagination.isSorted('u.city') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'City', 'u.city') }}</th>
+                                            <th {% if pagination.isSorted('u.zip_code') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Zip Code', 'u.zip_code') }}</th>
+                                            <th {% if pagination.isSorted('u.license') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Licence', 'u.license') }}</th>
+                                            <th {% if pagination.isSorted('u.npn') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'NPN', 'u.npn') }}</th>
+                                            <th style="text-align: right;">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for agent in pagination %}
+                                            <tr id="row_{{ agent.id }}">
+                                                <td>
+                                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                        <input class="form-check-input widget-9-check" type="checkbox"
+                                                               value="{{ agent.id }}"/> <span
+                                                                style="margin-left: 6px;">{{ agent.id }}</span>
+                                                    </div>
+                                                </td>
+                                                <td>{{ agent.getDisplayName }}</td>
+                                                <td>{{ agent.email }}</td>
+                                                <td>{{ agent.getBirthDate }}</td>
+                                                <td>{{ agent.phone }}</td>
+                                                <td>{{ agent.getPhoneExt }}</td>
+                                                <td>{{ agent.mobil }}</td>
+                                                <td>{{ agent.social }}</td>
+                                                <td>{{ agent.street }}</td>
+                                                <td>{{ agent.city }}</td>
+                                                <td>{{ agent.getZipCode }}</td>
+                                                <td>{{ agent.license }}</td>
+                                                <td>{{ agent.getNpn }}</td>
+                                                <td style="text-align: right;">
+                                                    {{ include('components/btn_edit.html.twig', { path: path('edit_agent',{'id':agent.id})  }) }}
+                                                    {{ include('components/btn_delete.html.twig', { path: path('delete_agent',{id:agent.id}), id: agent.id}) }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {# display navigation #}
+                                    <div class="navigation">
+                                        {{ knp_pagination_render(pagination) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="{{ path('delete_agent') }}" method="post" id="delete_form">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <input type="hidden" id="agent" name="agent" value="agent">
+    </form>
+    {{ include('user/form.html.twig',{form:delete_form_ajax}) }}
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/role/delete.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $('#roles_paginator').DataTable({
+                "searching": false,
+                "sort": false,
+                "paging": false
+            });
+
+            $('#btn-search').click(function (e) {
+                e.preventDefault()
+
+                let searcrh_text = $('#filter-text-box').val()
+
+                $('#form-search').submit()
+            })
+
+            $('.btn-delete').click(function (e) {
+                e.preventDefault()
+
+                var id = $(this).data('id')
+                $('#agent').val(id)
+            })
+
+            $('#cont-table').on('click', '.btn-delete', function (e) {
+
+
+                Swal.fire({
+                    html: 'Do you want to delete this agent?',
+                    icon: "warning",
+                    buttonsStyling: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: 'No, cancel',
+                    customClass: {
+                        confirmButton: "btn btn-success btn-confirm-delete",
+                        cancelButton: 'btn btn-danger'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        var agent_id = $('#agent').val()
+                        var tr = $('#row_' + agent_id);
+                        var url = $('#delete_form').attr('action')
+
+                        var data = {
+                            id: agent_id
+                        }
+
+                        $.post(url, data, function (result) {
+
+                            tr.fadeOut(500)
+
+                            Swal.fire(
+                                'Deleted!',
+                                'The agent has been deleted.',
+                                'success'
+                            )
+                        })
+                    }
+                })
+            })
+
+
+            $('.btn-execute').click(function (e) {
+                e.preventDefault()
+
+                let action = $('#multiple_actions').val();
+                var selected = [];
+                $('#table input[type="checkbox"]:checked').each(function() {
+                    selected.push($(this).val());
+                });
+
+                if (action === '0'){
+                    if (selected.length === 0) {
+                        Swal.fire({
+                            title: 'Delete seleted!',
+                            html: 'Select at least one element please.',
+                            icon: "warning",
+                            confirmButtonText: "Ok",
+
+                        })
+                    }
+                    var url = "/agents/delete_multiple";
+                    var data = {
+                        'ids': selected
+                    }
+
+                    console.log(url);
+
+                    Swal.fire({
+                        html: 'Do you want to delete this user?',
+                        icon: "warning",
+                        buttonsStyling: false,
+                        showCancelButton: true,
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: 'No, cancel',
+                        customClass: {
+                            confirmButton: "btn btn-success btn-confirm-delete",
+                            cancelButton: 'btn btn-danger'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            var role_id = $('#role').val()
+                            var tr = $('#row_' + role_id);
+                            var url = "/agents/delete_multiple";
+                            var data = {
+                                'ids': selected
+                            }
+
+                            $.post(url, data, function (result) {
+
+                                selected.forEach(rol => {
+                                    var tr = $('#row_' + rol);
+                                    tr.fadeOut(500)
+                                })
+
+                                Swal.fire(
+                                    'Deleted!',
+                                    'The agents has been deleted.',
+                                    'success'
+                                )
+                            })
+                        }
+                    })
+                }
+
+                console.log(action)
+                console.log(selected)
+            })
+        });
+    </script>
+{% endblock %}
