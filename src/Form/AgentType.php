@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Agent;
 use App\Entity\Role;
 use App\Entity\User;
+use App\Entity\UsState;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -49,6 +50,27 @@ class AgentType extends AbstractType
                         ->orderBy('u.id', 'ASC');
                 },
                     'attr'=>['class'=>'form-select', 'data-control'=>'select2'] ,'label'=>'User',
+                    'label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5']]
+            )
+
+            ->add('state', EntityType::class ,
+                ['expanded'=>false,'multiple'=>false,'class' => UsState::class,'choice_label' => function($object){
+                    return $object->getName();
+                }, 'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'ASC');
+                },
+                    'attr'=>['class'=>'form-select', 'data-control'=>'select2'] ,'label'=>'State',
+                    'label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5']]
+            )
+            ->add('agency', EntityType::class ,
+                ['expanded'=>false,'multiple'=>false,'class' => UsState::class,'choice_label' => function($object){
+                    return $object->getName();
+                }, 'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'ASC');
+                },
+                    'attr'=>['class'=>'form-select', 'data-control'=>'select2'] ,'label'=>'State',
                     'label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5']]
             )
             //TODO relation fields

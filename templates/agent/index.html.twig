@@ -41,12 +41,14 @@
                                             <th {% if pagination.isSorted('u.first_name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Name', 'u.first_name') }}</th>
                                             <th {% if pagination.isSorted('u.email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
                                             <th {% if pagination.isSorted('u.birth_date') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Birth Date', 'u.birth_date') }}</th>
+                                            <th {% if pagination.isSorted('a.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Agency', 'a.name') }}</th>
                                             <th {% if pagination.isSorted('u.phone') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Phone', 'u.phone') }}</th>
                                             <th {% if pagination.isSorted('u.phone_ext') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Ext', 'u.phone_ext') }}</th>
                                             <th {% if pagination.isSorted('u.mobil') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Mobil', 'u.mobil') }}</th>
                                             <th {% if pagination.isSorted('u.social') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Social', 'u.social') }}</th>
                                             <th {% if pagination.isSorted('u.street') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Street', 'u.street') }}</th>
                                             <th {% if pagination.isSorted('u.city') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'City', 'u.city') }}</th>
+                                            <th {% if pagination.isSorted('s.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'State', 's.name') }}</th>
                                             <th {% if pagination.isSorted('u.zip_code') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Zip Code', 'u.zip_code') }}</th>
                                             <th {% if pagination.isSorted('u.license') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Licence', 'u.license') }}</th>
                                             <th {% if pagination.isSorted('u.npn') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'NPN', 'u.npn') }}</th>
@@ -66,12 +68,14 @@
                                                 <td>{{ agent.getDisplayName }}</td>
                                                 <td>{{ agent.email }}</td>
                                                 <td>{{ agent.getBirthDate }}</td>
+                                                <td>{{ agent.agency.name }}</td>
                                                 <td>{{ agent.phone }}</td>
                                                 <td>{{ agent.getPhoneExt }}</td>
                                                 <td>{{ agent.mobil }}</td>
                                                 <td>{{ agent.social }}</td>
                                                 <td>{{ agent.street }}</td>
                                                 <td>{{ agent.city }}</td>
+                                                <td>{{ agent.state.abbreviation }}</td>
                                                 <td>{{ agent.getZipCode }}</td>
                                                 <td>{{ agent.license }}</td>
                                                 <td>{{ agent.getNpn }}</td>

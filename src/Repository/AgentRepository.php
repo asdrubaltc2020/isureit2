@@ -42,7 +42,9 @@ class AgentRepository extends ServiceEntityRepository
     public function getAll(){
 
         return $this->createQueryBuilder('u')
-            ->select('u')
+            ->select('u,s,a')
+            ->join('u.state','s')
+            ->join('u.agency','a')
             ->getQuery()
             ;
     }
@@ -50,7 +52,9 @@ class AgentRepository extends ServiceEntityRepository
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('u')
-            ->select('u')
+            ->select('u, s')
+            ->join('u.state','s')
+            ->join('u.agency','a')
             ->where('u.id = :id')
             ->orwhere('u.first_name LIKE :first_name')
             ->orwhere('u.last_name LIKE :last_name')
@@ -61,10 +65,12 @@ class AgentRepository extends ServiceEntityRepository
             ->orwhere('u.social LIKE :social')
             ->orwhere('u.street LIKE :street')
             ->orwhere('u.city LIKE :city')
+            ->orwhere('s.name LIKE :state')
             ->orwhere('u.zip_code LIKE :zip_code')
             ->orwhere('u.license LIKE :license')
             ->orwhere('u.npn LIKE :npn')
             ->orwhere('u.phone_ext LIKE :phone_ext')
+            ->orwhere('a.name LIKE :agency')
             ->setParameter('id', $value)
             ->setParameter('first_name', '%'.$value.'%')
             ->setParameter('last_name', '%'.$value.'%')
@@ -75,10 +81,12 @@ class AgentRepository extends ServiceEntityRepository
             ->setParameter('social', '%'.$value.'%')
             ->setParameter('street', '%'.$value.'%')
             ->setParameter('city', '%'.$value.'%')
+            ->setParameter('state', '%'.$value.'%')
             ->setParameter('zip_code', '%'.$value.'%')
             ->setParameter('license', '%'.$value.'%')
             ->setParameter('npn', '%'.$value.'%')
             ->setParameter('phone_ext', '%'.$value.'%')
+            ->setParameter('agency', '%'.$value.'%')
             ->getQuery()
             ;
     }
