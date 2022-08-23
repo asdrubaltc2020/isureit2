@@ -43,6 +43,22 @@ role:
   description: Description
   add: Add Role
 
+agent:
+  agents: Agents
+  agent_list: Agent List
+  id: Id
+  name: Name
+  description: Description
+  add: Add Agent
+
+customer:
+  customers: Customers
+  customer_list: Customer List
+  id: Id
+  name: Name
+  description: Description
+  add: Add Customer
+
 user:
 
 modal:
