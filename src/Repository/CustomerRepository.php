@@ -39,6 +39,57 @@ class CustomerRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAll(){
+
+        return $this->createQueryBuilder('u')
+            ->select('u,s,a')
+            ->join('u.state','s')
+            ->join('u.birth_state','bs')
+            ->join('u.agent','a')
+            ->getQuery()
+            ;
+    }
+
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u, s')
+            ->join('u.state','s')
+            ->join('u.agent','a')
+            ->join('u.birth_state','bs')
+            ->where('u.id = :id')
+            ->orwhere('u.first_name LIKE :first_name')
+            ->orwhere('u.last_name LIKE :last_name')
+            ->orwhere('u.email LIKE :email')
+            ->orwhere('u.birth_date LIKE :birth_date')
+            ->orwhere('u.phone LIKE :phone')
+            ->orwhere('u.mobile LIKE :mobil')
+            ->orwhere('u.social LIKE :social')
+            ->orwhere('u.street LIKE :street')
+            ->orwhere('u.city LIKE :city')
+            ->orwhere('s.name LIKE :state')
+            ->orwhere('u.zip_code LIKE :zip_code')
+            ->orwhere('u.annual_income LIKE :annual_income')
+            ->orwhere('a.first_name LIKE :agent')
+            ->orwhere('a.last_name LIKE :agent')
+            ->setParameter('id', $value)
+            ->setParameter('first_name', '%'.$value.'%')
+            ->setParameter('last_name', '%'.$value.'%')
+            ->setParameter('email', '%'.$value.'%')
+            ->setParameter('birth_date', '%'.$value.'%')
+            ->setParameter('phone', '%'.$value.'%')
+            ->setParameter('mobil', '%'.$value.'%')
+            ->setParameter('social', '%'.$value.'%')
+            ->setParameter('street', '%'.$value.'%')
+            ->setParameter('city', '%'.$value.'%')
+            ->setParameter('state', '%'.$value.'%')
+            ->setParameter('zip_code', '%'.$value.'%')
+            ->setParameter('agent', '%'.$value.'%')
+            ->setParameter('annual_income', '%'.$value.'%')
+            ->getQuery()
+            ;
+    }
+
 //    /**
 //     * @return Customer[] Returns an array of Customer objects
 //     */

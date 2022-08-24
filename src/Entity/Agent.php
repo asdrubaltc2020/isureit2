@@ -290,7 +290,7 @@ class Agent
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(): self
     {
         $this->created_at = new \DateTime();
 
