@@ -80,6 +80,10 @@ class Customer
         return $this->id;
     }
 
+    public function getDisplayName() {
+        return $this->first_name." ".$this->last_name;
+    }
+
     public function getFirstName(): ?string
     {
         return $this->first_name;
@@ -212,6 +216,8 @@ class Customer
         return $this;
     }
 
+
+
     public function getAnnualIncome(): ?string
     {
         return $this->annual_income;
@@ -230,7 +236,7 @@ class Customer
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(): self
     {
         $this->created_at = new \DateTime();
 
