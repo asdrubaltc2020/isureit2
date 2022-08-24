@@ -4,6 +4,11 @@ global:
   users: Users
   home: Home
   dashboard: Dashboard
+  actions: Actions
+
+form:
+  save: Save
+  cancel: Cancel
 
 menu:
   english: English
@@ -29,3 +34,19 @@ menu:
   roles: Roles
   logs: Logs
   language: Language
+
+role:
+  roles: Roles
+  role_list: Role List
+  id: Id
+  name: Name
+  description: Description
+  add: Add Role
+
+user:
+
+modal:
+  delete_btn: Delete
+  close_btn: Close
+  delete: Delete
+  shure: Are you sure you want to delete this

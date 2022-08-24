@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -68,6 +69,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Count(min: 1,minMessage: 'You have to select at least one Role')]
     private Collection $user_roles;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Agent::class)]
+    private Collection $agents;
+
     /**
      * User constructor.
      * @param int|null $id
@@ -83,6 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
         $this->password = $password;
         $this->user_roles = new ArrayCollection();
+        $this->agents = new ArrayCollection();
     }
 
 
@@ -130,6 +135,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function hasRole(String $role): bool
+    {
+        $rolesList=$this->getUserRoles();
+
+        if($rolesList!==null or $rolesList!==""){
+            foreach ($rolesList as $rol){
+                if($rol->getName() == $role){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -162,7 +185,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getFullName(){
-        return "";
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function getFirstName(): ?string
@@ -256,6 +279,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getDisplayName() {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    /**
+     * @return Collection<int, Agent>
+     */
+    public function getAgents(): Collection
+    {
+        return $this->agents;
+    }
+
+    public function addAgent(Agent $agent): self
+    {
+        if (!$this->agents->contains($agent)) {
+            $this->agents->add($agent);
+            $agent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgent(Agent $agent): self
+    {
+        if ($this->agents->removeElement($agent)) {
+            // set the owning side to null (unless already changed)
+            if ($agent->getUser() === $this) {
+                $agent->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

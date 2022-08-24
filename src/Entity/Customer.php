@@ -66,6 +66,15 @@ class Customer
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
 
+    #[ORM\ManyToOne(inversedBy: 'customers')]
+    private ?UsState $birth_state = null;
+
+    #[ORM\ManyToOne(inversedBy: 'customers')]
+    private ?UsState $state = null;
+
+    #[ORM\ManyToOne(inversedBy: 'customers')]
+    private ?Agent $agent = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -236,6 +245,42 @@ class Customer
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getBirthState(): ?UsState
+    {
+        return $this->birth_state;
+    }
+
+    public function setBirthState(?UsState $birth_state): self
+    {
+        $this->birth_state = $birth_state;
+
+        return $this;
+    }
+
+    public function getState(): ?UsState
+    {
+        return $this->state;
+    }
+
+    public function setState(?UsState $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getAgent(): ?Agent
+    {
+        return $this->agent;
+    }
+
+    public function setAgent(?Agent $agent): self
+    {
+        $this->agent = $agent;
 
         return $this;
     }

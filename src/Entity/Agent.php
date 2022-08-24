@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AgentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -71,6 +73,31 @@ class Agent
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\ManyToOne(inversedBy: 'agent')]
+    private ?UsState $state = null;
+
+    #[ORM\ManyToOne(inversedBy: 'agents')]
+    private ?Agency $agency = null;
+
+    #[ORM\ManyToOne(inversedBy: 'agents')]
+    private ?User $user = null;
+
+    #[ORM\ManyToMany(targetEntity: Carrier::class, inversedBy: 'agents')]
+    private Collection $agent_carriers;
+
+    #[ORM\ManyToMany(targetEntity: Ancillary::class, inversedBy: 'agents')]
+    private Collection $agent_ancilliaries;
+
+    #[ORM\OneToMany(mappedBy: 'agent', targetEntity: Customer::class)]
+    private Collection $customers;
+
+    public function __construct()
+    {
+        $this->agent_carriers = new ArrayCollection();
+        $this->agent_ancilliaries = new ArrayCollection();
+        $this->customers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -281,4 +308,127 @@ class Agent
 
         return $this;
     }
+
+    public function getState(): ?UsState
+    {
+        return $this->state;
+    }
+
+    public function setState(?UsState $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getAgency(): ?Agency
+    {
+        return $this->agency;
+    }
+
+    public function setAgency(?Agency $agency): self
+    {
+        $this->agency = $agency;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Carrier>
+     */
+    public function getAgentCarriers(): Collection
+    {
+        return $this->agent_carriers;
+    }
+
+    public function addAgentCarrier(Carrier $agentCarrier): self
+    {
+        if (!$this->agent_carriers->contains($agentCarrier)) {
+            $this->agent_carriers->add($agentCarrier);
+        }
+
+        return $this;
+    }
+
+    public function removeAgentCarrier(Carrier $agentCarrier): self
+    {
+        $this->agent_carriers->removeElement($agentCarrier);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ancillary>
+     */
+    public function getAgentAncilliaries(): Collection
+    {
+        return $this->agent_ancilliaries;
+    }
+
+    public function addAgentAncilliary(Ancillary $agentAncilliary): self
+    {
+        if (!$this->agent_ancilliaries->contains($agentAncilliary)) {
+            $this->agent_ancilliaries->add($agentAncilliary);
+        }
+
+        return $this;
+    }
+
+    public function removeAgentAncilliary(Ancillary $agentAncilliary): self
+    {
+        $this->agent_ancilliaries->removeElement($agentAncilliary);
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->first_name." ".$this->last_name;
+    }
+
+    public function getDisplayName() {
+        return $this->first_name." ".$this->last_name;
+    }
+
+    /**
+     * @return Collection<int, Customer>
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers->add($customer);
+            $customer->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): self
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getAgent() === $this) {
+                $customer->setAgent(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

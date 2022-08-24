@@ -30,7 +30,7 @@ class UserController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/list', name: 'user', methods: ["GET","POST"])]
+    #[Route('/list', name: 'list_user', methods: ["GET","POST"])]
     public function index(UserRepository $repository, TranslatorInterface $translator, PaginatorInterface $paginator, Request $request): Response
     {
         $searh="";
@@ -52,7 +52,7 @@ class UserController extends AbstractController
 
         $actions=[
             [
-                "id"=>1,
+                "id"=>0,
                 "name"=>"delete"
             ]
         ];
@@ -85,7 +85,7 @@ class UserController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->redirectToRoute('user');
+            return $this->redirectToRoute('list_user');
         }
 
         return $this->render('user/add.html.twig', [
@@ -118,34 +118,63 @@ class UserController extends AbstractController
 
         $user=$this->em->getRepository(User::class)->find($id);
 
-        $agent=$this->em->getRepository('App:Agent')->findOneBy(['user'=>$user->getId()]);
+/*        $agent=$this->em->getRepository('App:Agent')->findOneBy(['user'=>$user->getId()]);*/
 
         $role=null;
         if($user->hasRole('ROLE_AGENT')){
             $role='Agent';
         }
 
-        return $this->render('user/view.html.twig',['user'=>$user,'action'=>'View','agent'=>$agent,'role'=>$role]);
+        return $this->render('user/view.html.twig',['user'=>$user,'action'=>'View'/*,'agent'=>$agent*/,'role'=>$role]);
     }
 
     #[Route('/delete', name: 'delete_user', methods: ["POST","DELETE"])]
     public function deleteAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
 
-        $user = $em->getRepository('App:User')->find($id);
+        $user = $this->em->getRepository('App\Entity\User')->find($id);
         $removed = 0;
         $message = "";
 
         if ($user) {
             try {
-                $em->remove($user);
-                $em->flush();
+                $this->em->remove($user);
+                $this->em->flush();
                 $removed = 1;
                 $message = "The User has been Successfully removed";
             } catch (Exception $ex) {
                 $removed = 0;
                 $message = "The User can't be removed";
+            }
+        }
+
+        return new Response(
+            json_encode(array('removed' => $removed, 'message' => $message)), 200, array('Content-Type' => 'application/json')
+        );
+    }
+
+    /**
+     * @Route("/delete_multiple", name="delete_multiple_user",methods={"POST","DELETE"})
+     */
+    public function deleteMultipleAction(Request $request) {
+
+        $ids = $request->get('ids');
+        $removed = 0;
+        $message = "";
+
+        foreach ($ids as $id) {
+            $user  = $this->em->getRepository('App\Entity\User')->find($id);
+
+            if ($user) {
+                try {
+                    $this->em->remove($user);
+                    $this->em->flush();
+                    $removed = 1;
+                    $message = "The Users has been removed Successfully";
+                } catch (Exception $ex) {
+                    $removed = 0;
+                    $message = "The Users can't be removed";
+                }
             }
         }
 

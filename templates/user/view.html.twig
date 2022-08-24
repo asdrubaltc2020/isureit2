@@ -6,7 +6,7 @@
             item_level:2,
             main_section_title: "User",
             parent_page_title: "Users" ,
-            link_path: path('user'),
+            link_path: path('list_user'),
             page_title: "User",
             action: action
         })
@@ -37,7 +37,7 @@
                                                             <div class="d-flex flex-column">
                                                                 <!--begin::Name-->
                                                                 <div class="d-flex align-items-center mb-2">
-                                                                    <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">{{ user.fullName }}</a>
+                                                                    <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">{{ user.getFullName() }}</a>
                                                                     <a href="#">
                                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen026.svg-->
                                                                         <span class="svg-icon svg-icon-1 svg-icon-primary">
@@ -71,9 +71,9 @@
 																	        <path d="M12.0624 13.0453C13.7193 13.0453 15.0624 11.7022 15.0624 10.0453C15.0624 8.38849 13.7193 7.04535 12.0624 7.04535C10.4056 7.04535 9.06241 8.38849 9.06241 10.0453C9.06241 11.7022 10.4056 13.0453 12.0624 13.0453Z" fill="currentColor" />
 																        </svg>
 															            </span>
-                                                                        {% if agent %}
+                                                                        {#{% if agent %}
                                                                             {{ agent.getAddress }}
-                                                                        {% endif %}
+                                                                        {% endif %}#}
                                                                     </a>
                                                                     <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
                                                                         <!--begin::Svg Icon | path: icons/duotune/communication/com011.svg-->
@@ -122,7 +122,7 @@
                                                     <!--end::Col-->
                                                 </div>
 
-                                                {% if agent %}
+                                                {#{% if agent %}
                                                 <div class="row mb-7">
                                                     <label class="col-lg-4 fw-bold text-muted">Agency</label>
                                                     <div class="col-lg-8 fv-row">
@@ -137,7 +137,7 @@
                                                         <span class="fw-bolder fs-6 text-gray-800 me-2">{{ agent.phone }}</span>
                                                     </div>
                                                 </div>
-                                                {% endif %}
+                                                {% endif %}#}
                                                 <div class="row mb-7">
                                                     <label class="col-lg-4 fw-bold text-muted">Contact Email</label>
                                                     <div class="col-lg-8 d-flex align-items-center">

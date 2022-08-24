@@ -18,12 +18,12 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        {{ include('components/search_bar.html.twig',{ action_path: path('user'),  link_path: path('add_user'), add_btn_label: 'Add User' }) }}
+                        {{ include('components/search_bar.html.twig',{ action_path: path('list_user'),  link_path: path('add_user'), add_btn_label: 'Add User' }) }}
                         {{ include('components/multiple_actions.html.twig',{ actions: actions }) }}
                         <div class="row mb-2">
                             <div class="col-12">
                                 <div class="table-responsive" id="cont-table">
-                                    <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                                    <table id="table" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                         <thead>
                                         <tr class="fw-bolder text-muted">
                                             <th class="w-10%">
@@ -40,7 +40,7 @@
                                             <tr id="row_{{ user.id }}">
                                                 <td>
                                                     <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                        <input class="form-check-input widget-9-check" type="checkbox" value="1" /> <span style="margin-left: 6px;">{{ user.id }}</span>
+                                                        <input class="form-check-input widget-9-check" type="checkbox" value="{{ user.id }}" /> <span style="margin-left: 6px;">{{ user.id }}</span>
                                                     </div>
                                                 </td>
                                                 <td>{{ user.first_name }}</td>
@@ -134,13 +134,73 @@
                 })
             })
 
-
-            $('.btn-execute').click(function(e){
+            $('.btn-execute').click(function (e) {
                 e.preventDefault()
 
-                let action= $('#multiple_actions').val();
+                let action = $('#multiple_actions').val();
+                var selected = [];
+                $('#table input[type="checkbox"]:checked').each(function() {
+                    selected.push($(this).val());
+                    console.log($(this).val())
+                });
 
                 console.log(action)
+                console.log(selected)
+
+                if (action === '0'){
+                    if (selected.length === 0) {
+                        Swal.fire({
+                            title: 'Delete seleted!',
+                            html: 'Select at least one element please.',
+                            icon: "warning",
+                            confirmButtonText: "Ok",
+
+                        })
+                    }
+                    var url = "/users/delete_multiple_role";
+                    var data = {
+                        'ids': selected
+                    }
+
+                    Swal.fire({
+                        html: 'Do you want to delete this users?',
+                        icon: "warning",
+                        buttonsStyling: false,
+                        showCancelButton: true,
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: 'No, cancel',
+                        customClass: {
+                            confirmButton: "btn btn-success btn-confirm-delete",
+                            cancelButton: 'btn btn-danger'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            var user_id = $('#user').val()
+                            var tr = $('#row_' + user_id);
+                            var url = "/users/delete_multiple";
+                            var data = {
+                                'ids': selected
+                            }
+
+                            $.post(url, data, function (result) {
+
+                                selected.forEach(rol => {
+                                    var tr = $('#row_' + rol);
+                                    tr.fadeOut(500)
+                                })
+
+                                Swal.fire(
+                                    'Deleted!',
+                                    'The roles has been deleted.',
+                                    'success'
+                                )
+                            })
+                        }
+                    })
+                }
+
+
             })
 
         })
