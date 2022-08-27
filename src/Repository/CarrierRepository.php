@@ -39,6 +39,33 @@ class CarrierRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAll(){
+
+        return $this->createQueryBuilder('u')
+            ->select('u,a')
+            ->join('u.agents','a')
+            ->getQuery()
+            ;
+    }
+
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u, a')
+            ->join('u.agents','a')
+            ->where('u.id = :id')
+            ->orwhere('u.name LIKE :name')
+            ->orwhere('u.description LIKE :description')
+            ->orwhere('a.first_name LIKE :agents_name')
+            ->setParameter('id', $value)
+            ->setParameter('name', '%'.$value.'%')
+            ->setParameter('description', '%'.$value.'%')
+            ->setParameter('agents_name', '%'.$value.'%')
+
+            ->getQuery()
+            ;
+    }
+
 //    /**
 //     * @return Carrier[] Returns an array of Carrier objects
 //     */
