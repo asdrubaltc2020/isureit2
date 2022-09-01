@@ -33,12 +33,19 @@
                         <div class="row">
                             <div class="col-9">
                                 {{ form_start(form, {'attr': {'id':'form'}}) }}
+
                                 {{ form_widget(form) }}
+
+
+
+
                                 <div class="form-group row pt-10">
                                     <div class="col-12">
                                         <p class="text-danger font-weight-bold">(*) Fields required</p>
-                                        <a href="#" class="btn btn-primary bnt-send"><i class="fas fa-save"></i> Save</a>
-                                        <a href="{{ path('list_carrier') }}" class="btn btn-danger"><i class="fas fa-ban"></i> Cancel</a>
+                                        <a href="#" class="btn btn-primary bnt-send"><i class="fas fa-save"></i>
+                                            Save</a>
+                                        <a href="{{ path('list_carrier') }}" class="btn btn-danger"><i
+                                                    class="fas fa-ban"></i> Cancel</a>
                                     </div>
                                 </div>
                                 {{ form_end(form) }}
@@ -51,11 +58,13 @@
     </div>
 {% endblock %}
  {% block javascripts %}
-     {{ parent()}}
-     <script type="text/javascript">
-         $(document).ready(function(e){
+     {{ parent() }}
+     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 
-             $('.bnt-send').click(function(e){
+     <script type="text/javascript">
+         $(document).ready(function (e) {
+
+             $('.bnt-send').click(function (e) {
 
                  e.preventDefault();
                  $('#form').submit();

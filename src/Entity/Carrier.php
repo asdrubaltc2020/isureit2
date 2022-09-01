@@ -26,8 +26,8 @@ class Carrier
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $logo_url = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $logo_url;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -72,12 +72,12 @@ class Carrier
         return $this;
     }
 
-    public function getLogoUrl(): ?string
+    public function getLogo_url(): ?string
     {
         return $this->logo_url;
     }
 
-    public function setLogoUrl(?string $logo_url): self
+    public function setLogo_url(?string $logo_url): self
     {
         $this->logo_url = $logo_url;
 

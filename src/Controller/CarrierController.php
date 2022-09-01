@@ -17,9 +17,12 @@ use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/carriers',)]
 class CarrierController extends AbstractController{
@@ -64,7 +67,7 @@ class CarrierController extends AbstractController{
     }
 
     #[Route('/new', name: 'add_carrier')]
-    public function addCarrier(Request $request): Response
+    public function addCarrier(Request $request, SluggerInterface $slugger): Response
     {
         $carrier = new Carrier();
         $form = $this->createForm(CarrierType::class, $carrier);
@@ -77,6 +80,31 @@ class CarrierController extends AbstractController{
                 $agent = $this->em->getRepository(Agent::class)->find($agent_id);
                 $agent->addAgentCarrier($carrier);
             }
+
+            $asd = $carrier->getLogo_url();
+            /** @var UploadedFile $logoFile */
+            $logoFile = $_FILES['carrier'];
+
+            /*if ($logoFile) {
+                $originalFilename = pathinfo($logoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $logoFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $logoFile->move(
+                        $this->getParameter('logos_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $carrier->setLogo_url($newFilename);
+            }*/
 
             $this->em->persist($agent);
             $this->em->persist($carrier);
