@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
-{% block title %}Isureit - {{ action }} Carrier{% endblock %}
+{% block title %}Isureit - {{ action }} Ancillary{% endblock %}
 {% block breadcrumb %}
     <div class="toolbar py-5" id="kt_toolbar">
         <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
             <div class="page-title d-flex flex-column me-3">
-                <h1 class="d-flex text-white fw-bolder my-1 fs-3">{{ action }} Carrier</h1>
+                <h1 class="d-flex text-white fw-bolder my-1 fs-3">{{ action }} Ancillary</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <li class="breadcrumb-item text-white opacity-75">
                         <a href="{{ path('dashboard') }}" class="text-white text-hover-primary">Home</a>
@@ -13,12 +13,12 @@
                         <span class="bullet bg-white opacity-75 w-5px h-2px"></span>
                     </li>
                     <li class="breadcrumb-item text-white opacity-75">
-                        <a href="{{ path('list_carrier') }}" class="text-white text-hover-primary">Carriers</a>
+                        <a href="{{ path('list_ancillary') }}" class="text-white text-hover-primary">Ancillaries</a>
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-white opacity-75 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-white opacity-75">{{ action }} Carrier</li>
+                    <li class="breadcrumb-item text-white opacity-75">{{ action }} Ancillary</li>
                 </ul>
             </div>
         </div>
@@ -36,15 +36,12 @@
 
                                 {{ form_widget(form) }}
 
-                                {% if carrier.logo_url %}
-                                    <img style="max-width: 50%; max-height: 50%;object-fit: contain;" src="{{ asset('uploads/logos/' ~ carrier.logo_url) }}" width="200" height="200" alt="logo" class="img-thumbnail">
-                                {% endif %}
                                 <div class="form-group row pt-10">
                                     <div class="col-12">
                                         <p class="text-danger font-weight-bold">(*) Fields required</p>
                                         <a href="#" class="btn btn-primary bnt-send"><i class="fas fa-save"></i>
                                             Save</a>
-                                        <a href="{{ path('list_carrier') }}" class="btn btn-danger"><i
+                                        <a href="{{ path('list_ancillary') }}" class="btn btn-danger"><i
                                                     class="fas fa-ban"></i> Cancel</a>
                                     </div>
                                 </div>

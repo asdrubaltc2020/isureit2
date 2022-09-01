@@ -39,6 +39,28 @@ class AgencyRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAll(){
+
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->getQuery()
+            ;
+    }
+
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->where('u.id = :id')
+            ->orwhere('u.name LIKE :name')
+            ->orwhere('u.description LIKE :description')
+            ->setParameter('id', $value)
+            ->setParameter('name', '%'.$value.'%')
+            ->setParameter('description', '%'.$value.'%')
+            ->getQuery()
+            ;
+    }
+
 //    /**
 //     * @return Agency[] Returns an array of Agency objects
 //     */

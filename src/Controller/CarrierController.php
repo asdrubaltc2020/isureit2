@@ -14,6 +14,7 @@ use App\Repository\AgentRepository;
 use App\Repository\CarrierRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\RoleRepository;
+use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -67,7 +68,7 @@ class CarrierController extends AbstractController{
     }
 
     #[Route('/new', name: 'add_carrier')]
-    public function addCarrier(Request $request, SluggerInterface $slugger): Response
+    public function addCarrier(Request $request,FileUploader $fileUploader): Response
     {
         $carrier = new Carrier();
         $form = $this->createForm(CarrierType::class, $carrier);
@@ -75,38 +76,22 @@ class CarrierController extends AbstractController{
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $agents = $request->get('carrier')['agents'];
+            /*$agents = $request->get('carrier')['agents'];
             foreach ($agents as $agent_id) {
                 $agent = $this->em->getRepository(Agent::class)->find($agent_id);
                 $agent->addAgentCarrier($carrier);
+            }*/
+            /** @var UploadedFile $brochureFile */
+            $file = $request->files->get('carrier')['logo_url'];
+
+            if ($file){
+
+                $logoFileName = $fileUploader->upload($file);
+                $carrier->setLogo_url($logoFileName);
+
             }
 
-            $asd = $carrier->getLogo_url();
-            /** @var UploadedFile $logoFile */
-            $logoFile = $_FILES['carrier'];
-
-            /*if ($logoFile) {
-                $originalFilename = pathinfo($logoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $logoFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $logoFile->move(
-                        $this->getParameter('logos_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $carrier->setLogo_url($newFilename);
-            }*/
-
-            $this->em->persist($agent);
+/*            $this->em->persist($agent);*/
             $this->em->persist($carrier);
             $this->em->flush();
 
@@ -114,19 +99,20 @@ class CarrierController extends AbstractController{
             return $this->redirectToRoute('list_carrier');
         }
 
-        return $this->render('carrier/add.html.twig', ['form' => $form->createView(), 'action' => 'New']);
+        return $this->render('carrier/add.html.twig', ['form' => $form->createView(), 'action' => 'New', 'carrier' => $carrier]);
     }
 
     #[Route('/edit/{id}', name: 'edit_carrier', defaults: ['id' => null])]
-    public function edit(Request $request, $id): Response
+    public function edit(Request $request, $id,FileUploader $fileUploader): Response
     {
-
         $carrier = $this->em->getRepository('App\Entity\Carrier')->find($id);
-        $agents_old = $carrier->getAgents();
+/*        $logo_old[] = $carrier->getLogo_url();*/
+
+        /*$agents_old = $carrier->getAgents();
         $agents_old_id = [];
         foreach ($agents_old as $agent_old) {
             $agents_old_id[] = $agent_old;
-        }
+        }*/
 
         $form = $this->createForm(CarrierType::class, $carrier);
 
@@ -137,7 +123,7 @@ class CarrierController extends AbstractController{
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            foreach ($agents_old_id as $agent_old) {
+            /*foreach ($agents_old_id as $agent_old) {
                 $agent = $this->em->getRepository(Agent::class)->find($agent_old);
                 $agent->removeAgentCarrier($carrier);
             }
@@ -148,7 +134,17 @@ class CarrierController extends AbstractController{
                 $agent->addAgentCarrier($carrier);
             }
 
-            $this->em->persist($agent);
+            $this->em->persist($agent);*/
+
+            /** @var UploadedFile $brochureFile */
+            $file = $request->files->get('carrier')['logo_url'];
+
+            if ($file){
+
+                $logoFileName = $fileUploader->upload($file);
+                $carrier->setLogo_url($logoFileName);
+
+            }
 
             $this->em->persist($carrier);
             $this->em->flush();
@@ -157,7 +153,7 @@ class CarrierController extends AbstractController{
             return $this->redirectToRoute('list_carrier');
         }
 
-        return $this->render('carrier/add.html.twig', ['form' => $form->createView(), 'action' => 'Edit']);
+        return $this->render('carrier/add.html.twig', ['form' => $form->createView(), 'action' => 'Edit', 'carrier' => $carrier]);
     }
 
     #[Route('/delete', name: 'delete_carrier', methods: ["POST", "DELETE"])]

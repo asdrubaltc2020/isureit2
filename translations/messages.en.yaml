@@ -20,7 +20,14 @@ menu:
   agents: Agents
   new_agent: New Agent
   list_agents: List Agents
+  new_ancillary: Add Ancillary
+  new_agency: Add Agency
+  list_ancillary: List Ancillary
+  list_agency: List Agency
   customers: Customers
+  utils: Utils
+  ancillary: Ancillaries
+  agency: Agency
   new_customer: New Customer
   list_customers: List Customers
   tools: Tools
@@ -58,6 +65,22 @@ carrier:
   name: Name
   description: Description
   add: Add Carrier
+
+ancillary:
+  ancillaries: Ancillaries
+  ancillary_list: Ancillary List
+  id: Id
+  name: Name
+  description: Description
+  add: Add Ancillary
+
+agency:
+  agencies: Agencies
+  agency_list: Agency List
+  id: Id
+  name: Name
+  description: Description
+  add: Add Agency
 
 customer:
   customers: Customers

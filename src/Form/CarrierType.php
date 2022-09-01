@@ -21,14 +21,14 @@ class CarrierType extends AbstractType
 
             ->add('name',TextType::class, ['label'=>'Name (*)','label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5']])
             ->add('description',TextType::class, ['label'=>'Description','label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5']])
-            ->add('agents', EntityType::class, array(
+            /*->add('agents', EntityType::class, array(
                 'class'     => Agent::class,
                 'expanded'  => false,
                 'multiple'  => true,
                 'label'=>'Agents',
                 'label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5'],
                 'attr'=>['class'=>'form-select', 'data-control'=>'select2'] ,
-            ))
+            ))*/
             ->add('logo_url', FileType::class, [
                 'label' => 'Logo',
                 'label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5'],

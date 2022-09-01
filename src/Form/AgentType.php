@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Agency;
 use App\Entity\Agent;
+use App\Entity\Ancillary;
+use App\Entity\Carrier;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\UsState;
@@ -74,6 +76,22 @@ class AgentType extends AbstractType
                     'attr'=>['class'=>'form-select', 'data-control'=>'select2'] ,'label'=>'Agency',
                     'label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5']]
             )
+            ->add('agent_carriers', EntityType::class, array(
+                'class'     => Carrier::class,
+                'expanded'  => false,
+                'multiple'  => true,
+                'label'=>'Carriers',
+                'label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5'],
+                'attr'=>['class'=>'form-select', 'data-control'=>'select2'] ,
+            ))
+            ->add('agent_ancilliaries', EntityType::class, array(
+                'class'     => Ancillary::class,
+                'expanded'  => false,
+                'multiple'  => true,
+                'label'=>'Ancillary',
+                'label_attr'=>['class'=>'form-label fw-bolder text-dark fs-6 mb-2 mt-5'],
+                'attr'=>['class'=>'form-select', 'data-control'=>'select2'] ,
+            ))
             //TODO relation fields
         ;
 

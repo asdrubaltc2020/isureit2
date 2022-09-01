@@ -1,19 +1,26 @@
-<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
-    <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu"
+     data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true"
+     data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start"
+     data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend"
+     data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+    <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
+         id="#kt_header_menu" data-kt-menu="true">
         <div class="menu-item me-lg-1" id="link-dashboard">
             <a class="menu-link py-3" href="{{ path('dashboard') }}">
                 <span class="menu-title">{% trans %}menu.dashboard{% endtrans %}</span>
                 <span class="menu-arrow d-lg-none"></span>
             </a>
         </div>
-        <div id="link-carrier" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-lg-1">
+        <div id="link-carrier" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+             class="menu-item menu-lg-down-accordion me-lg-1">
             <span class="menu-link py-3">
                 <span class="menu-title">{% trans %}menu.carrier{% endtrans %}</span>
                 <span class="menu-arrow"></span>
             </span>
             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="{{ path('add_carrier') }}" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="{{ path('add_carrier') }}" data-bs-toggle="tooltip"
+                       data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -21,7 +28,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="{{ path('list_carrier') }}" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="{{ path('list_carrier') }}" data-bs-toggle="tooltip"
+                       data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -30,14 +38,16 @@
                 </div>
             </div>
         </div>
-        <div id="link-agent" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-lg-1">
+        <div id="link-agent" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+             class="menu-item menu-lg-down-accordion me-lg-1">
             <span class="menu-link py-3">
                 <span class="menu-title">{% trans %}menu.agents{% endtrans %}</span>
                 <span class="menu-arrow"></span>
             </span>
             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="{{ path('add_agent') }}" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="{{ path('add_agent') }}" data-bs-toggle="tooltip"
+                       data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -45,7 +55,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="{{ path('list_agent') }}" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="{{ path('list_agent') }}" data-bs-toggle="tooltip"
+                       data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -54,14 +65,16 @@
                 </div>
             </div>
         </div>
-        <div id="link-customer" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-lg-1">
+        <div id="link-customer" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+             class="menu-item menu-lg-down-accordion me-lg-1">
             <span class="menu-link py-3">
                 <span class="menu-title">{% trans %}menu.customers{% endtrans %}</span>
                 <span class="menu-arrow"></span>
             </span>
             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                       data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -69,7 +82,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="{{path('list_customer') }}" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="{{ path('list_customer') }}" data-bs-toggle="tooltip"
+                       data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -78,14 +92,89 @@
                 </div>
             </div>
         </div>
-        <div id="link-tools" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-lg-1">
+
+        <div id="link-utils" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+             class="menu-item menu-lg-down-accordion me-lg-1">
+            <span class="menu-link py-3">
+                <span class="menu-title">{% trans %}menu.utils{% endtrans %}</span>
+                <span class="menu-arrow"></span>
+            </span>
+            <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
+
+                <div id="link-ancillary" data-kt-menu-trigger="click" data-kt-menu-placement="right-start"
+                     class="menu-item menu-lg-down-column me-lg-1">
+                    <span class="menu-link py-3">
+                        <span class="menu-title">{% trans %}menu.ancillary{% endtrans %}</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
+
+                        <div class="menu-item">
+                            <a class="menu-link py-3" href="{{ path('add_ancillary') }}" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                               data-bs-dismiss="click" data-bs-placement="right">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                                <span class="menu-title">{% trans %}menu.new_ancillary{% endtrans %}</span>
+                            </a>
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link py-3" href="{{ path('list_ancillary') }}" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                               data-bs-dismiss="click" data-bs-placement="right">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                                <span class="menu-title">{% trans %}menu.list_ancillary{% endtrans %}</span>
+                            </a>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div id="link-agency" data-kt-menu-trigger="click" data-kt-menu-placement="right-start"
+                     class="menu-item menu-lg-down-column me-lg-1">
+                    <span class="menu-link py-3">
+                        <span class="menu-title">{% trans %}menu.agency{% endtrans %}</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
+
+                        <div class="menu-item">
+                            <a class="menu-link py-3" href="{{ path('add_agency') }}" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                               data-bs-dismiss="click" data-bs-placement="right">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                                <span class="menu-title">{% trans %}menu.new_agency{% endtrans %}</span>
+                            </a>
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link py-3" href="{{ path('list_agency') }}" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                               data-bs-dismiss="click" data-bs-placement="right">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                                <span class="menu-title">{% trans %}menu.list_agency{% endtrans %}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="link-tools" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+             class="menu-item menu-lg-down-accordion me-lg-1">
             <span class="menu-link py-3">
                 <span class="menu-title">{% trans %}menu.tools{% endtrans %}</span>
                 <span class="menu-arrow"></span>
             </span>
             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                       data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -93,7 +182,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                       data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -101,7 +191,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                       data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -109,7 +200,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                       data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -117,7 +209,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                       data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -126,14 +219,16 @@
                 </div>
             </div>
         </div>
-        <div id="link-security" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-lg-1">
+        <div id="link-security" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+             class="menu-item menu-lg-down-accordion me-lg-1">
             <span class="menu-link py-3">
                 <span class="menu-title">{% trans %}menu.security{% endtrans %}</span>
                 <span class="menu-arrow"></span>
             </span>
             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="{{ path('list_user') }}" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="{{ path('list_user') }}" data-bs-toggle="tooltip"
+                       data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -141,7 +236,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="{{ path('list_role') }}" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="{{ path('list_role') }}" data-bs-toggle="tooltip"
+                       data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
@@ -149,7 +245,8 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link py-3" href="#" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                       data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
