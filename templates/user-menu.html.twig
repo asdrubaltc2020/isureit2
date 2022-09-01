@@ -95,9 +95,7 @@
         <div class="separator my-2"></div>
         <!--end::Menu separator-->
         <!--begin::Menu item-->
-        <form action="#" method="post" id="change_locale_form">
-            <input type="hidden" name="language_selected" id="language_selected">
-            <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
+
         <div class="menu-item px-5" data-kt-menu-trigger="hover" data-kt-menu-placement="left-start">
             <a href="#" class="menu-link px-5">
                 <span class="menu-title position-relative">{% trans %}menu.language{% endtrans %}
@@ -108,7 +106,7 @@
             <div class="menu-sub menu-sub-dropdown w-175px py-4">
                 <!--begin::Menu item-->
                 <div class="menu-item px-3">
-                    <a data-id="en" href="#" class="menu-link d-flex px-5 active">
+                    <a data-id="en" href="{{ path('app_change_locale_translation',{'locale':'en'}) }}" class="menu-link d-flex px-5 active language-btn">
                         <span class="symbol symbol-20px me-4">
                             <img class="rounded-1" src="assets/media/flags/united-states.svg" alt="" />
                         </span>{% trans %}menu.english{% endtrans %}</a>
@@ -116,7 +114,7 @@
                 <!--end::Menu item-->
                 <!--begin::Menu item-->
                 <div class="menu-item px-3">
-                    <a href="#" data-id="es" class="menu-link d-flex px-5 language-btn">
+                    <a href="{{ path('app_change_locale_translation',{'locale':'es'}) }}" data-id="es" class="menu-link d-flex px-5 language-btn">
                         <span class="symbol symbol-20px me-4">
                             <img class="rounded-1" src="assets/media/flags/spain.svg" alt="" />
                         </span>{% trans %}menu.spanish{% endtrans %}</a>
@@ -125,7 +123,6 @@
             </div>
             <!--end::Menu sub-->
         </div>
-        </form>
         <!--end::Menu item-->
         <!--begin::Menu item-->
         <div class="menu-item px-5 my-1">
