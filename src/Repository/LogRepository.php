@@ -39,6 +39,37 @@ class LogRepository extends ServiceEntityRepository
         }
     }
 
+    public function getTotal(){
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getAll(){
+
+        return $this->createQueryBuilder('u')
+            ->select('u.id','u.action','u.parentId','u.parentClass')
+            ->getQuery()
+            ;
+    }
+
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.id','u.action','u.parentId','u.parentClass')
+            ->where('u.id = :id')
+            ->orwhere('u.action LIKE :action')
+            ->orwhere('u.parentId = :parentId')
+            ->orwhere('u.parentClass = :parentClass')
+            ->setParameter('id', $value)
+            ->setParameter('action', '%'.$value.'%')
+            ->setParameter('parentId', $value )
+            ->setParameter('parentClass', $value)
+            ->getQuery()
+            ;
+    }
+
 //    /**
 //     * @return Log[] Returns an array of Log objects
 //     */
