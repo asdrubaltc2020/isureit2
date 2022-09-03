@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserEditType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\LogService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,14 +21,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController
 {
     private $em;
+    private $log_service;
 
-    /**
-     * UserController constructor.
-     * @param $em
-     */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, LogService $log_service)
     {
         $this->em = $em;
+        $this->log_service = $log_service;
     }
 
     #[Route('/list', name: 'list_user', methods: ["GET","POST"])]
@@ -57,6 +56,8 @@ class UserController extends AbstractController
             ]
         ];
 
+        $this->log_service->add('List',null, 'User');
+
         return $this->render('user/index.html.twig', [
             'pagination' => $pagination,'delete_form_ajax' => $delete_form_ajax->createView(), "actions"=>$actions, 'searh'=>$searh
         ]);
@@ -85,6 +86,8 @@ class UserController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
+            $this->log_service->add('Add',$user->getId(), 'User');
+
             return $this->redirectToRoute('list_user');
         }
 
@@ -106,6 +109,7 @@ class UserController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
+            $this->log_service->add('Edit',$user->getId(), 'User');
             $this->addFlash('success', 'User Updated!');
             return $this->redirectToRoute('user');
         }
@@ -118,14 +122,12 @@ class UserController extends AbstractController
 
         $user=$this->em->getRepository(User::class)->find($id);
 
-/*        $agent=$this->em->getRepository('App:Agent')->findOneBy(['user'=>$user->getId()]);*/
-
         $role=null;
         if($user->hasRole('ROLE_AGENT')){
             $role='Agent';
         }
 
-        return $this->render('user/view.html.twig',['user'=>$user,'action'=>'View'/*,'agent'=>$agent*/,'role'=>$role]);
+        return $this->render('user/view.html.twig',['user'=>$user,'action'=>'View' ,'role'=>$role]);
     }
 
     #[Route('/delete', name: 'delete_user', methods: ["POST","DELETE"])]
@@ -141,6 +143,9 @@ class UserController extends AbstractController
                 $this->em->remove($user);
                 $this->em->flush();
                 $removed = 1;
+
+                $this->log_service->add('Delete',$user->getId(), 'User');
+
                 $message = "The User has been Successfully removed";
             } catch (Exception $ex) {
                 $removed = 0;
@@ -170,6 +175,9 @@ class UserController extends AbstractController
                     $this->em->remove($user);
                     $this->em->flush();
                     $removed = 1;
+
+                    $this->log_service->add('Delete',$user->getId(), 'User');
+
                     $message = "The Users has been removed Successfully";
                 } catch (Exception $ex) {
                     $removed = 0;

@@ -11,20 +11,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\LogService;
 
 #[Route('/roles',)]
 class RoleController extends AbstractController
 {
 
     private $em;
+    private $log_service;
 
     /**
      * UserController constructor.
      * @param $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, LogService $log_service)
     {
         $this->em = $em;
+        $this->log_service = $log_service;
     }
 
     #[Route('/list', name: 'list_role', methods: ["GET","POST"])]
@@ -71,6 +74,7 @@ class RoleController extends AbstractController
             $this->em->persist($role);
             $this->em->flush();
 
+            $this->log_service->add('Add',$role->getId(), 'Role');
             $this->addFlash('success', 'Role Created!');
             return $this->redirectToRoute('list_role');
         }
@@ -94,6 +98,7 @@ class RoleController extends AbstractController
             $this->em->persist($role);
             $this->em->flush();
 
+            $this->log_service->add('Edit',$role->getId(), 'Role');
             $this->addFlash('success', 'Role Updated!');
             return $this->redirectToRoute('list_role');
         }
@@ -102,10 +107,11 @@ class RoleController extends AbstractController
     }
 
 
-    /*#[Route('/delete/{id}', name: 'delete_role')]
-    public function deleteAction($id) {
-        $role = $this->em->getRepository('App\Entity\Role')->find($id);
+    #[Route('/delete', name: 'delete_role', methods: ["POST","DELETE"])]
+    public function deleteAction(Request $request) {
+        $id = $request->get('id');
 
+        $role = $this->em->getRepository('App\Entity\Role')->find($id);
         $removed = 0;
         $message = "";
 
@@ -114,32 +120,11 @@ class RoleController extends AbstractController
                 $this->em->remove($role);
                 $this->em->flush();
                 $removed = 1;
-                $message = "The Role has been removed Successfully ";
+                $this->log_service->add('Delete',$role->getId(), 'Role');
+                $message = "The Role has been Successfully removed";
             } catch (Exception $ex) {
                 $removed = 0;
                 $message = "The Role can't be removed";
-            }
-        }
-        return $this->redirectToRoute('list_role');
-    }*/
-
-    #[Route('/delete', name: 'delete_role', methods: ["POST","DELETE"])]
-    public function deleteAction(Request $request) {
-        $id = $request->get('id');
-
-        $user = $this->em->getRepository('App\Entity\Role')->find($id);
-        $removed = 0;
-        $message = "";
-
-        if ($user) {
-            try {
-                $this->em->remove($user);
-                $this->em->flush();
-                $removed = 1;
-                $message = "The User has been Successfully removed";
-            } catch (Exception $ex) {
-                $removed = 0;
-                $message = "The User can't be removed";
             }
         }
 
@@ -165,6 +150,7 @@ class RoleController extends AbstractController
                     $this->em->remove($role);
                     $this->em->flush();
                     $removed = 1;
+                    $this->log_service->add('Delete',$role->getId(), 'Role');
                     $message = "The Roles has been removed Successfully";
                 } catch (Exception $ex) {
                     $removed = 0;

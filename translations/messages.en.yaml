@@ -51,6 +51,14 @@ agent:
   description: Description
   add: Add Agent
 
+carrier:
+  carriers: Carriers
+  carrier_list: Carrier List
+  id: Id
+  name: Name
+  description: Description
+  add: Add Carrier
+
 customer:
   customers: Customers
   customer_list: Customer List
