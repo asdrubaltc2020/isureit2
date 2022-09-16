@@ -6,8 +6,10 @@
             <button id="btn-search" class="btn btn-sm btn-secondary fw-bolder flex-shrink-0" data-clipboard-target="#kt_share_earn_link_input">Search</button>
         </div>
     </div>
+    {% if action_path!='' %}
     <div class="col-6" style="text-align: right">
         <a href="{{ link_path }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> {{ add_btn_label }}</a>
     </div>
+    {% endif %}
 </div>
 </form>
